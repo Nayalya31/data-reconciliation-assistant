@@ -149,6 +149,74 @@ h3 {
     backdrop-filter: blur(10px);
 }
 
+.page-stack {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.section-head,
+.head-actions,
+.result-grid,
+.mini-table {
+    display: flex;
+}
+
+.section-head {
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.section-head > div:first-child {
+    min-width: 0;
+}
+
+.section-head h1 {
+    overflow-wrap: anywhere;
+}
+
+.head-actions {
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+    gap: 0.65rem;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+.result-grid > .panel,
+.page-stack > .panel {
+    min-width: 0;
+    padding: 1rem;
+}
+
+.mini-table {
+    display: grid;
+    gap: 0;
+    margin-top: 0.8rem;
+}
+
+.mini-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.72rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.mini-row:last-child {
+    border-bottom: 0;
+}
+
+.mini-row strong {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
 .chat-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.84fr);
@@ -631,6 +699,26 @@ button,
         padding-top: 1rem;
     }
 
+    .section-head,
+    .head-actions,
+    .card-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .head-actions > * {
+        width: 100%;
+        text-align: center;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mini-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
     .topbar,
     .chat-stage__header,
     .composer__bottom,
@@ -663,7 +751,47 @@ button,
         padding: 0.95rem;
     }
 
-    table {
-        min-width: 460px;
+    .page-stack > .panel .table-wrap {
+        overflow: visible;
+        border: 0;
+    }
+
+    .page-stack > .panel table,
+    .page-stack > .panel tbody,
+    .page-stack > .panel tr,
+    .page-stack > .panel td {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .page-stack > .panel thead {
+        display: none;
+    }
+
+    .page-stack > .panel tr {
+        margin-bottom: 0.9rem;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: white;
+    }
+
+    .page-stack > .panel td {
+        display: grid;
+        grid-template-columns: minmax(7.5rem, 42%) minmax(0, 1fr);
+        gap: 0.75rem;
+        padding: 0.72rem 0.8rem;
+        overflow-wrap: anywhere;
+    }
+
+    .page-stack > .panel td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 }

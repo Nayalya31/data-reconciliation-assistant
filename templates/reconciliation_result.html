@@ -10,7 +10,16 @@
         <article class="panel"><div class="card-heading"><h2>Категории расхождений</h2><p>Круговая диаграмма не включает подтверждённые пары.</p></div><img class="reconciliation-chart" src="/reconciliation/{{ record.id }}/chart" alt="Круговая диаграмма расхождений"></article>
     </div>
     <article class="panel"><div class="card-heading"><h2>Операции</h2><p>Спорные пары не подтверждаются автоматически.</p></div><div class="table-wrap"><table><thead><tr><th>Категория</th><th>Причина</th><th>Наша строка</th><th>Наш документ</th><th>Наша сумма</th><th>Строка контрагента</th><th>Документ контрагента</th><th>Сумма контрагента</th></tr></thead><tbody>
-    {% for row in record.result.rows %}<tr><td><span class="status-pill status-{{ 'ok' if row.category == 'Подтверждено' else 'warn' }}">{{ row.category }}</span></td><td>{{ row.reason }}</td><td>{{ row.ours.row if row.ours else '—' }}</td><td>{{ row.ours.document if row.ours else '—' }}</td><td>{{ row.ours.amount if row.ours else '—' }}</td><td>{{ row.counterparty.row if row.counterparty else '—' }}</td><td>{{ row.counterparty.document if row.counterparty else '—' }}</td><td>{{ row.counterparty.amount if row.counterparty else '—' }}</td></tr>{% endfor %}
+    {% for row in record.result.rows %}<tr>
+        <td data-label="Категория"><span class="status-pill status-{{ 'ok' if row.category == 'Подтверждено' else 'warn' }}">{{ row.category }}</span></td>
+        <td data-label="Причина">{{ row.reason }}</td>
+        <td data-label="Наша строка">{{ row.ours.row if row.ours else '—' }}</td>
+        <td data-label="Наш документ">{{ row.ours.document if row.ours else '—' }}</td>
+        <td data-label="Наша сумма">{{ row.ours.amount if row.ours else '—' }}</td>
+        <td data-label="Строка контрагента">{{ row.counterparty.row if row.counterparty else '—' }}</td>
+        <td data-label="Документ контрагента">{{ row.counterparty.document if row.counterparty else '—' }}</td>
+        <td data-label="Сумма контрагента">{{ row.counterparty.amount if row.counterparty else '—' }}</td>
+    </tr>{% endfor %}
     </tbody></table></div></article>
 </section>
 {% endblock %}
