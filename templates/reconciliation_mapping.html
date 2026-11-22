@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% macro field_select(prefix, label, item, field) %}<label><span>{{ label }}</span><select name="{{ prefix }}_{{ field }}" required>{% for column in item.columns %}<option value="{{ column }}" {% if column == item.suggested[field] %}selected{% endif %}>{{ column }}</option>{% endfor %}</select></label>{% endmacro %}
+{% block shell %}
+<section class="page-stack"><div class="section-head"><div><p class="eyebrow">Шаг 2 из 2</p><h1>Сопоставьте колонки</h1><p class="subtle">Проверьте автоматический выбор. Исходные значения сохранятся в отчёте для контроля.</p></div></div>
+<form class="panel mapping-form" method="post" action="/reconciliation/run"><input type="hidden" name="ours_token" value="{{ ours.token }}"><input type="hidden" name="counterparty_token" value="{{ counterparty.token }}">
+<div class="mapping-grid"><fieldset><legend>Наша выгрузка: {{ ours.name }}</legend>{{ field_select('ours', 'Дата', ours, 'date') }}{{ field_select('ours', 'Номер документа', ours, 'document') }}{{ field_select('ours', 'Вид операции', ours, 'operation') }}{{ field_select('ours', 'Сумма', ours, 'amount') }}</fieldset>
+<fieldset><legend>Контрагент: {{ counterparty.name }}</legend>{{ field_select('counter', 'Дата', counterparty, 'date') }}{{ field_select('counter', 'Номер документа', counterparty, 'document') }}{{ field_select('counter', 'Вид операции', counterparty, 'operation') }}{{ field_select('counter', 'Сумма', counterparty, 'amount') }}</fieldset></div>
+<button class="primary-btn" type="submit">Выполнить сверку</button></form></section>
+{% endblock %}

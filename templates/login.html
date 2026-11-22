@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block shell %}
+<section class="auth-card panel">
+    <p class="eyebrow">Защищённый контур</p><h1>Вход для рабочей сверки</h1>
+    <p class="subtle">Публичное демо использует только синтетические данные. Рабочие файлы и отчёты доступны владельцу сессии.</p>
+    {% if error_message %}<div class="alert alert-error">{{ error_message }}</div>{% endif %}
+    <form class="action-form" method="post" action="/login">
+        <label><span>Логин</span><input name="username" autocomplete="username" required></label>
+        <label><span>Пароль</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary-btn" type="submit">Войти</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,8 @@
+Transaction date,Document No,Type,Amount
+,BALANCE-START,Opening balance,-1000.00
+2026-10-01,A-001,Purchase,-1000.00
+2026-10-03,P-001,Payment,400.00
+2026-10-05,B-002,Purchase,-450.00
+2026-10-10,D-004,Payment,-500.00
+2026-10-12,E-005,Purchase,-100.00
+,BALANCE-END,Closing balance,-2650.00

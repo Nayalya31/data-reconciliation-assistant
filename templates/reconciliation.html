@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block shell %}
+<section class="page-stack">
+    <div class="section-head">
+        <div><p class="eyebrow">Бухгалтерский сценарий</p><h1>Сверка взаиморасчётов</h1><p class="subtle">Один контрагент, один период. XLSX или CSV. Денежные расчёты выполняются на сервере с точностью до копейки.</p></div>
+        <div class="head-actions"><a class="secondary-btn" href="/reconciliation/demo">Открыть демо</a>{% if user %}<form method="post" action="/logout"><button class="ghost-btn" type="submit">Выйти</button></form>{% else %}<a class="ghost-btn" href="/login">Войти</a>{% endif %}</div>
+    </div>
+    {% if error_message %}<div class="alert alert-error">{{ error_message }}</div>{% endif %}
+    <div class="result-grid">
+        <article class="panel"><div class="card-heading"><h2>Новая сверка</h2><p>Исходные выгрузки не отправляются модели и обрабатываются локально приложением.</p></div>
+            {% if user %}<form class="action-form" method="post" action="/reconciliation/upload" enctype="multipart/form-data">
+                <label><span>Наша выгрузка из 1С</span><input type="file" name="ours_file" accept=".xlsx,.csv" required></label>
+                <label><span>Выгрузка контрагента</span><input type="file" name="counterparty_file" accept=".xlsx,.csv" required></label>
+                <button class="primary-btn" type="submit">Загрузить и сопоставить колонки</button></form>
+            {% else %}<div class="empty-card"><strong>Для рабочих файлов нужен вход</strong><p>Можно сразу открыть публичное демо с обезличенными данными.</p><a class="primary-btn" href="/login">Войти</a></div>{% endif %}
+        </article>
+        <article class="panel"><div class="card-heading"><h2>Что проверяется</h2><p>Однозначные зеркальные операции подтверждаются автоматически.</p></div><div class="insight-list">
+            <div class="insight-item">Операции только у одной стороны и расхождения сумм</div><div class="insight-item">Возможные дубли, частичные оплаты и неоднозначные пары</div><div class="insight-item">Начальное и конечное сальдо, необъяснённый остаток</div><div class="insight-item">Источник и номер строки для ручной проверки</div>
+        </div></article>
+    </div>
+    {% if user %}<article class="panel"><div class="card-heading"><h2>История</h2><p>Результаты сохраняются в постоянной базе и остаются после перезапуска.</p></div>
+        {% if history %}<div class="artifact-list">{% for item in history %}<a class="download-card" href="/reconciliation/{{ item.id }}"><div><strong>{{ item.ours_name }} ↔ {{ item.counterparty_name }}</strong><span>{{ item.created_at }} · спорных: {{ item.summary.dispute_count }}</span></div><span>Открыть</span></a>{% endfor %}</div>{% else %}<p class="muted-note">Сверок пока нет.</p>{% endif %}</article>{% endif %}
+</section>
+{% endblock %}
