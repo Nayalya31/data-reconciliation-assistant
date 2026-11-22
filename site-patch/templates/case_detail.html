@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ case.title }} — {{ site_name }}{% endblock %}
+{% block description %}{{ case.card_text }}{% endblock %}
+
+{% block content %}
+  <article class="article">
+    <div class="container narrow">
+      <nav class="crumbs" aria-label="Навигация по разделам">
+        <a href="{{ url_for('index') }}">Главная</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ url_for('cases') }}">Кейсы</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ case.title }}</span>
+      </nav>
+
+      <p class="kicker">Кейс {{ "%02d"|format(case.number) }}</p>
+      <h1>{{ case.title }}</h1>
+      <p class="lead">{{ case.card_text }}</p>
+      <ul class="tag-list">
+        {% for tag in case.tags %}
+          <li>{{ tag }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="container">
+      <img class="article-cover" src="{{ url_for('static', filename=case.image) }}" alt="{{ case.image_alt }}" width="1200" height="750">
+    </div>
+
+    <div class="container narrow article-body">
+      <h2>Задача</h2>
+      <p>{{ case.task }}</p>
+
+      <h2>Что сделано</h2>
+      {% for paragraph in case.solution %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+
+      <h2>На выходе</h2>
+      <ul class="deliverables">
+        {% for item in case.deliverables %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+
+      <h2>Результат</h2>
+      <p>{{ case.result }}</p>
+      {% if case_note %}<p class="note">{{ case_note }}</p>{% endif %}
+
+      {% if case.github %}
+        <h2>Исходный код</h2>
+        <p>
+          <a class="btn btn-secondary" href="{{ case.github }}" target="_blank" rel="noopener noreferrer">
+            Открыть проект на GitHub
+          </a>
+        </p>
+      {% endif %}
+
+      {% if case.demo %}
+        <h2>Рабочая демонстрация</h2>
+        <p>
+          <a class="btn btn-brand" href="{{ case.demo }}" target="_blank" rel="noopener noreferrer">
+            Открыть демо
+          </a>
+        </p>
+      {% endif %}
+
+      <div class="article-cta">
+        <p>Похожая задача уже есть в работе?</p>
+        <a class="btn btn-brand" href="{{ url_for('contact') }}">Обсудить мою задачу</a>
+      </div>
+
+      <nav class="case-switch" aria-label="Другие кейсы">
+        {% if previous %}
+          <a href="{{ url_for('case_detail', slug=previous.slug) }}">
+            <span>Предыдущий</span>
+            {{ previous.title }}
+          </a>
+        {% else %}
+          <span></span>
+        {% endif %}
+        {% if following %}
+          <a class="case-switch__next" href="{{ url_for('case_detail', slug=following.slug) }}">
+            <span>Следующий</span>
+            {{ following.title }}
+          </a>
+        {% endif %}
+      </nav>
+    </div>
+  </article>
+{% endblock %}
