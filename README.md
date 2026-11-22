@@ -52,6 +52,8 @@ docker compose up --build -d
 
 Каталог `./storage` монтируется целиком, поэтому SQLite-история, входные файлы и отчёты сохраняются после перезапуска контейнера. Миграции из `migrations/` применяются при старте.
 
+Production-конфигурация для Traefik находится в `docker-compose.prod.yml` и публикует сервис на `reconcile.24tali-ai.ru`, используя отдельный named volume.
+
 ## Хранение и безопасность
 
 По умолчанию история находится в `storage/app.db`. Рабочие выгрузки — в `storage/reconciliation_inputs`, результаты — в `storage/outputs/reconciliations`. Все эти пути исключены из Git и Docker-контекста. Для production включите `COOKIE_SECURE=true`, задайте уникальный `SESSION_SECRET` и публикуйте сервис только через HTTPS reverse proxy.

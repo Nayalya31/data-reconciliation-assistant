@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    container_name: data-reconciliation-assistant
+    env_file:
+      - /etc/data-reconciliation-assistant.env
+    volumes:
+      - data_reconciliation_storage:/app/storage
+    restart: unless-stopped
+    networks:
+      - n8n_default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=n8n_default
+      - traefik.http.routers.data-reconciliation.rule=Host(`reconcile.24tali-ai.ru`)
+      - traefik.http.routers.data-reconciliation.entrypoints=web,websecure
+      - traefik.http.routers.data-reconciliation.tls=true
+      - traefik.http.routers.data-reconciliation.tls.certresolver=mytlschallenge
+      - traefik.http.services.data-reconciliation.loadbalancer.server.port=8000
+
+volumes:
+  data_reconciliation_storage:
+
+networks:
+  n8n_default:
+    external: true
